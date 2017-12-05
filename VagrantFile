@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+Vagrant.configure("2") do |config|
+    os = "bento/ubuntu-16.04"
+    net_ip = "192.168.50.22"
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+        vb.cpus = 2
+        vb.name = "wordpress-machine"
+    end
+
+    config.vm.box = "#{os}"
+    config.vm.host_name = "wordpress-test"
+    config.vm.network "private_network", ip: "#{net_ip}"
+
+    config.vm.provision "shell", path: "install_apache.sh",
+        privileged: "true"
+
+end
