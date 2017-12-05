@@ -21,9 +21,12 @@ Vagrant.configure("2") do |config|
     config.vm.host_name = "wordpress-test"
     config.vm.network "private_network", ip: "#{net_ip}"
 
-    # config.vm.provision "shell",
-        # inline: "apt-get update"
+    config.vm.provision "shell",
+        inline: "apt-get update"
 
+    config.vm.provision "file",
+        source: "wordpress_nginx.conf",
+        destination: "/tmp/wordpress_nginx.conf"
     config.vm.provision "shell",
         path: "install_nginx.sh",
         privileged: "true"
@@ -37,4 +40,15 @@ Vagrant.configure("2") do |config|
               "PASSWD" => "#{mysql_wordpress_password}",
              }
 
+    config.vm.provision "shell",
+        path: "install_php.sh",
+        privileged: "true"
+
+    config.vm.provision "shell",
+        path: "setup_wordpress.sh",
+        privileged: "false",
+        env: {"DB" => "#{mysql_wordpress_database}",
+              "USER" => "#{mysql_wordpress_username}",
+              "PASSWD" => "#{mysql_wordpress_password}",
+             }
 end
