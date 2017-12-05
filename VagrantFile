@@ -5,6 +5,11 @@
 Vagrant.configure("2") do |config|
     os = "bento/ubuntu-16.04"
     net_ip = "192.168.50.22"
+    # mysql config
+    mysql_super_passwd = "hola"
+    mysql_wordpress_database = "wordpress"
+    mysql_wordpress_username = "wordpress_user"
+    mysql_wordpress_password= "greetings"
 
     config.vm.provider "virtualbox" do |vb|
         vb.memory = "1024"
@@ -16,7 +21,20 @@ Vagrant.configure("2") do |config|
     config.vm.host_name = "wordpress-test"
     config.vm.network "private_network", ip: "#{net_ip}"
 
-    config.vm.provision "shell", path: "install_apache.sh",
+    # config.vm.provision "shell",
+        # inline: "apt-get update"
+
+    config.vm.provision "shell",
+        path: "install_nginx.sh",
         privileged: "true"
+
+    config.vm.provision "shell",
+        path: "install_mysql.sh",
+        privileged: "true",
+        env: {"SUPER_PASSWORD" => "#{mysql_super_passwd}",
+              "DB" => "#{mysql_wordpress_database}",
+              "USER" => "#{mysql_wordpress_username}",
+              "PASSWD" => "#{mysql_wordpress_password}",
+             }
 
 end
