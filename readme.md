@@ -1,5 +1,7 @@
 # Bootstrap WordPress use Vagrant.
 
+[How to use vagrant?](https://www.kawabangga.com/posts/2442) (中文)
+
 Usage:
 
 1. Install a virtualbox
