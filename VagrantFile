@@ -16,7 +16,8 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
         vb.name = "wordpress-machine"
     end
-
+    config.vm.network "public_network",
+        use_dhcp_assigned_default_route: true
     config.vm.box = "#{os}"
     config.vm.host_name = "wordpress-test"
     config.vm.network "private_network", ip: "#{net_ip}"
